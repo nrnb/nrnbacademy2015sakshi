@@ -13,7 +13,9 @@ import java.awt.Component;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 import javax.swing.Icon;
 import javax.swing.JOptionPane;
@@ -52,8 +54,10 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
     private boolean[] LoadedCentralities = new boolean[numberofcentralities];
     CentiScaPeDirectedThreadEngine Thrd;
     public Boolean isWeighted;
+    public Boolean analyzeMultiple;
     static String edgeWeightAttribute;
     static Class<?> attrtype;
+    private HashMap<CyNetwork, Vector> HashVectorResults;
 
     public CentiScaPeStartMenu(CyActivator cyactivator, CentiScaPeCore centiscapecore) {
         initComponents();
@@ -120,6 +124,7 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
         UndirectedNetworkHelpButton = new javax.swing.JButton();
         DirectedNetworkHelpButton = new javax.swing.JButton();
         WeightedNetworkHelpButton = new javax.swing.JButton();
+        multipleNetworkCheckBox = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         LoadAttributesButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -563,6 +568,8 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
             }
         });
 
+        multipleNetworkCheckBox.setText("Analyze Selected Networks");
+
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -585,7 +592,7 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
                                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                     .add(directedRaidioButton)
                                     .add(WeightedCheckBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 260, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 36, Short.MAX_VALUE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 42, Short.MAX_VALUE)
                                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                     .add(org.jdesktop.layout.GroupLayout.TRAILING, DirectedNetworkHelpButton)
                                     .add(org.jdesktop.layout.GroupLayout.TRAILING, WeightedNetworkHelpButton)))
@@ -596,6 +603,7 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
                         .add(34, 34, 34))
                     .add(jPanel2Layout.createSequentialGroup()
                         .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(multipleNetworkCheckBox)
                             .add(jPanel2Layout.createSequentialGroup()
                                 .add(StartButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 95, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .add(18, 18, 18)
@@ -631,7 +639,9 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
                     .add(StartButton)
                     .add(StopButton)
                     .add(ExitButton))
-                .add(54, 54, 54)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(multipleNetworkCheckBox)
+                .add(29, 29, 29)
                 .add(startclient)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jLabelServerResponse, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 25, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -687,7 +697,7 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
                 .add(jLabel3)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jLabel9)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
@@ -719,7 +729,7 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
                             .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel4Layout.createSequentialGroup()
                                 .add(jLabel4)
                                 .add(1, 1, 1))
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE))
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))
                         .addContainerGap())
                     .add(jPanel4Layout.createSequentialGroup()
                         .add(jLabel5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1308,18 +1318,23 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
     }//GEN-LAST:event_StopButtonActionPerformed
 
     private void StartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButtonActionPerformed
+                                                
      //   System.out.println("entro in start");
+        CyNetwork network;
+        analyzeMultiple= multipleNetworkCheckBox.isSelected();
+        List<CyNetworkView> views = cyApplicationManager.getSelectedNetworkViews();
+        currentnetworkview = cyApplicationManager.getCurrentNetworkView();        
+        currentnetwork = currentnetworkview.getModel();
 
-        currentnetworkview = cyApplicationManager.getCurrentNetworkView();
+        
+        
         if (currentnetworkview == null) {
             System.out.println("No network1");
             JOptionPane.showMessageDialog(this.cyDesktopService.getJFrame(),
                     "No network selected!", "CentiScaPe", JOptionPane.WARNING_MESSAGE);
             return;
-        } else {
-            currentnetworkview = cyApplicationManager.getCurrentNetworkView();
-        }
-        currentnetwork = currentnetworkview.getModel();
+        } 
+        
         if (currentnetwork.getNodeCount() == 0) {
             System.out.println("No network1");
             JOptionPane.showMessageDialog(this.cyDesktopService.getJFrame(),
@@ -1339,7 +1354,7 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
 
 
         int answer = 0;
-        if (iscurrentnetworkchanged()) {
+        if (!analyzeMultiple && iscurrentnetworkchanged()) {
             System.out.println("network changed");
             Object[] options = {"Start computation", "Abort computation"};
             answer = JOptionPane.showOptionDialog(this.cyDesktopService.getJFrame(), "You have changed the current network. "
@@ -1359,10 +1374,10 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
             //verify if it is weighted 
             isWeighted = WeightedCheckBox.isSelected();
             //enter the edge attribute to be selected - edge attribute name wich gives weights of edges
-            if (isWeighted) {
+             if (isWeighted) {
                 // take attribute from user
                 edgeWeightAttribute = JOptionPane.showInputDialog(null, "Enter the Edge Attribute to be used as edge weight for the network");
-                try{while (currentnetwork.getDefaultEdgeTable().getColumn(edgeWeightAttribute) == null) {
+                try{if (currentnetwork.getDefaultEdgeTable().getColumn(edgeWeightAttribute) == null) {
                     //pop a menu showing that it is not in the list and 
                     edgeWeightAttribute = JOptionPane.showInputDialog(null, "Oops! there is no such attribute found in the edge table. Looks like you have misspelled attribute name.\n"+"Enter the Edge Attribute to be used as edge weight for the network");              
                 }}catch(Exception ex){
@@ -1388,6 +1403,7 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
                     return ;
                 }
             }
+           
             inizio = System.currentTimeMillis();
             System.out.println("start time =" + inizio);
             // verify Checkbox
@@ -1443,12 +1459,46 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
                 CentiScaPealg.setChecked(CheckedCentralities);
 
                 if (secondanswer == 0) {
+                    
+                    
+                    if(analyzeMultiple)
+                    {
+                        HashVectorResults=new HashMap<CyNetwork, Vector>();
+                        for(int i=0;i<views.size();i++)
+                        {
+                            network= views.get(i).getModel();
+                                                           
+                            removeattributes(network);
+                            calculatingresult();
+                            CentiScaPeThreadEngine ThrEng2 = new CentiScaPeThreadEngine(CentiScaPealg, network, views.get(i));
+                            ThrEng2.setCaller(this);
+                            ThrEng2.start();
+                            try {
+                                ThrEng2.join();
+                                Vector v=CentiScaPealg.VectorResults;
+                                HashVectorResults.put(network,(Vector)v.clone());
+                                System.out.println("Hi");
+                                
+                            } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                }
 
-                    removeattributes();
-                    calculatingresult();
-                    ThrEng = new CentiScaPeThreadEngine(CentiScaPealg, currentnetwork, currentnetworkview);
-                    ThrEng.setCaller(this);
-                    ThrEng.start();
+                            }
+                        JOptionPane.showMessageDialog(this.cyDesktopService.getJFrame(), "Networks analysis complete",
+                            "CentiScaPe", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else
+                    {
+                        removeattributes(currentnetwork);
+                        calculatingresult();
+                        ThrEng = new CentiScaPeThreadEngine(CentiScaPealg, currentnetwork, currentnetworkview);
+                        ThrEng.setCaller(this);
+                        ThrEng.start();
+                    
+                    }
+                        
+                    	
+                   
                     /*
                      * ThrEng.yield();
                      * CentiScaPeCore.visualizer.setEnabled(CentiScaPealg.VectorResults);
@@ -1468,14 +1518,37 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
             } else {
 
                 System.out.println("enter in directed networks\n");
-                if (checkIfAlreadyPresentAndDelete()) {
-                    Thrd = new CentiScaPeDirectedThreadEngine(currentnetwork, CheckedCentralities, directedCentralities, this, centiscapecore);
-                    Thrd.start();
-                }
+                 if(analyzeMultiple)
+                    {
+                        
+                        for(int i=0;i<views.size();i++)
+                        {
+                             if (checkIfAlreadyPresentAndDelete(views.get(i).getModel())) {  
+                                CentiScaPeDirectedThreadEngine ThrEng2 =  new CentiScaPeDirectedThreadEngine(views.get(i).getModel(), CheckedCentralities, directedCentralities, this, centiscapecore);
+                                ThrEng2.start();
+                                try {
+                                    ThrEng2.join();
+                                } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                    }
+                             }
+
+                            }
+                         JOptionPane.showMessageDialog(this.cyDesktopService.getJFrame(), "Networks analysis complete",
+                            "CentiScaPe", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                  else{
+                          if (checkIfAlreadyPresentAndDelete(currentnetwork)) {            
+                              Thrd = new CentiScaPeDirectedThreadEngine(currentnetwork, CheckedCentralities, directedCentralities, this, centiscapecore);
+                              Thrd.start();
+                          }
+                  }
+                  
+               
             }
         }
     }//GEN-LAST:event_StartButtonActionPerformed
-    public boolean checkIfAlreadyPresentAndDelete() {
+    public boolean checkIfAlreadyPresentAndDelete(CyNetwork currentnetwork) {
         boolean enterIntoAlgo = true;
         boolean[] checkedButAlreadyLoadedDirectedCentralities = new boolean[numberofcentralities + 1];
         StringBuffer toDisplay = new StringBuffer();
@@ -1898,6 +1971,7 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JCheckBox multipleNetworkCheckBox;
     private javax.swing.JButton selectallButton;
     private javax.swing.JButton startclient;
     private javax.swing.JRadioButton undirectedRadioButton;
@@ -1941,7 +2015,7 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
 
     }
 
-    public void removeattributes() {
+    public void removeattributes(CyNetwork currentnetwork) {
         CyTable nodeTable = currentnetwork.getDefaultNodeTable();
         CyTable networkTable = currentnetwork.getDefaultNetworkTable();
         System.out.println("current network table= " + networkTable.toString());
