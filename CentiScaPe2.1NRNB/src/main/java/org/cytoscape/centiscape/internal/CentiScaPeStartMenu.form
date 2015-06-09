@@ -615,7 +615,11 @@
                               </Group>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
+<<<<<<< HEAD
                                       <Component id="multipleNetworksCheckBox" min="-2" max="-2" attributes="0"/>
+=======
+                                      <Component id="multipleNetworkCheckBox" min="-2" max="-2" attributes="0"/>
+>>>>>>> origin/master
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="StartButton" min="-2" pref="95" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -662,7 +666,11 @@
                               <Component id="ExitButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
+<<<<<<< HEAD
                           <Component id="multipleNetworksCheckBox" min="-2" max="-2" attributes="0"/>
+=======
+                          <Component id="multipleNetworkCheckBox" min="-2" max="-2" attributes="0"/>
+>>>>>>> origin/master
                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                           <Component id="startclient" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -798,6 +806,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="WeightedNetworkHelpButtonActionPerformed"/>
                   </Events>
                 </Component>
+<<<<<<< HEAD
                 <Component class="javax.swing.JCheckBox" name="multipleNetworksCheckBox">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Analyze selected networks"/>
@@ -805,6 +814,12 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="multipleNetworksCheckBoxActionPerformed"/>
                   </Events>
+=======
+                <Component class="javax.swing.JCheckBox" name="multipleNetworkCheckBox">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Analyze Selected Networks"/>
+                  </Properties>
+>>>>>>> origin/master
                 </Component>
               </SubComponents>
             </Container>

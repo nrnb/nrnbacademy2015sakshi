@@ -1328,6 +1328,7 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
     }//GEN-LAST:event_StopButtonActionPerformed
 
     private void StartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButtonActionPerformed
+                                                
      //   System.out.println("entro in start");
         CyNetwork network;
         analyzeMultiple= multipleNetworksCheckBox.isSelected();
