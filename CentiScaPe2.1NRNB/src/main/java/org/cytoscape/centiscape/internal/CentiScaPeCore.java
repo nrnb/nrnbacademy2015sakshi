@@ -14,6 +14,7 @@ import org.cytoscape.application.swing.CytoPanelComponent;
 import org.cytoscape.application.swing.CytoPanelName;
 import org.cytoscape.application.swing.CytoPanelState;
 import org.cytoscape.centiscape.internal.visualizer.CentVisualizer;
+import org.cytoscape.centiscape.internal.visualizer.CentMultiNetworkvisualizer;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.service.util.CyServiceRegistrar;
 import org.cytoscape.view.model.CyNetworkView;
@@ -32,6 +33,7 @@ public class CentiScaPeCore {
     public CyActivator cyactivator;
     public CentiScaPeStartMenu centiscapestartmenu;
     public CentVisualizer centvisualizer;
+    public CentMultiNetworkvisualizer  centMultiNetworkvisualizer;
     public ArrayList visualizerlist;
     
 
@@ -109,6 +111,25 @@ public class CentiScaPeCore {
     public CentVisualizer getvisualizer() {
         return centvisualizer;
     }
+    public CentMultiNetworkvisualizer createMultiNetworkCentiScaPeVisualizer() {
+       // System.out.println("create1");
+        centMultiNetworkvisualizer = new CentMultiNetworkvisualizer(cyApplicationManager,this);//(cyactivator,this);
+      //  System.out.println("create2");
+        cyServiceRegistrar.registerService(centMultiNetworkvisualizer, CytoPanelComponent.class, new Properties());
+      //  System.out.println("create3");
+        CytoPanel cytopaneleast = cyDesktopService.getCytoPanel(CytoPanelName.EAST);
+        cytopaneleast.setState(CytoPanelState.DOCK);
+        int index = cytopaneleast.indexOfComponent(centMultiNetworkvisualizer);
+        cytopaneleast.setSelectedIndex(index);
+        visualizerlist.add(centMultiNetworkvisualizer);
+      //  System.out.println("create4");
+        return centMultiNetworkvisualizer;
+    }
+
+
+    public CentMultiNetworkvisualizer getMultiNetworkVisualizer() {
+        return centMultiNetworkvisualizer;
+    }
     
     public    CyApplicationManager getCyApplicationManager()
     {
@@ -120,5 +141,8 @@ public class CentiScaPeCore {
      
      public void closeCurrentResultPanel(CentVisualizer currentresultpanel) {
         cyServiceRegistrar.unregisterService(currentresultpanel, CytoPanelComponent.class);
+    }
+      public void closeCurrentMultiResultPanel( CentMultiNetworkvisualizer  centMultiNetworkvisualizer) {
+        cyServiceRegistrar.unregisterService(centMultiNetworkvisualizer, CytoPanelComponent.class);
     }
 }

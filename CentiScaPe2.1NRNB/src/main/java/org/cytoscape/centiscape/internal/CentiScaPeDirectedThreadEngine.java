@@ -19,16 +19,17 @@ public class CentiScaPeDirectedThreadEngine extends Thread {
     public CentiScaPeDirectedAlgorithm algo;
     public CentiScaPeCore centiscapecore;
     
-    public CentiScaPeDirectedThreadEngine(CyNetwork network, boolean[] checkedCentralities, String[] directedCentralities, JPanel c, CentiScaPeCore core){
+    public CentiScaPeDirectedThreadEngine(CentiScaPeDirectedAlgorithm algo,CyNetwork network, boolean[] checkedCentralities, String[] directedCentralities, JPanel c, CentiScaPeCore core){
         this.network=network;
         this.checkedCentralities=checkedCentralities;
         this.directedCentralities=directedCentralities;
         this.menu = c;
         this.centiscapecore = core;
+        this.algo=algo;
     }
     
     public void run(){
-        algo = new CentiScaPeDirectedAlgorithm();
+       
         algo.executeCentralities(network, checkedCentralities, directedCentralities, menu,centiscapecore);
         
     }

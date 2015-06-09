@@ -4,6 +4,7 @@
 	<properties>
 						<bundle.symbolicName>org.cytoscape.CentiScaPe</bundle.symbolicName>
 		<bundle.namespace>org.cytoscape.centiscape</bundle.namespace>
+	 <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -53,6 +54,7 @@
 						<Xmaxwarns>10000</Xmaxwarns>
 						<Xmaxerrs>10000</Xmaxerrs>
 					</compilerArguments>
+				 <encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -81,6 +83,14 @@
 											</instructions>
 				</configuration>
 			</plugin>
+		 <plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-resources-plugin</artifactId>
+		  <version>2.4.3</version>
+		  <configuration>
+		   <encoding>${project.build.sourceEncoding}</encoding>
+		  </configuration>
+		 </plugin>
 		</plugins>
 	</build>
 

@@ -739,9 +739,12 @@ public class CentiScaPeAlgorithm {
             ImplCentrality edgeBetweennessCentrality = new ImplCentrality("Edge Betweenness unDir", true, mean, min, max);
             VectorResults.add(edgeBetweennessCentrality);
         }
+        if(!menustart.analyzeMultiple)
+        {
         centiscapecore.createCentiScaPeVisualizer();
 
         centiscapecore.getvisualizer().setEnabled(VectorResults);
+        }
         if (openResultPanel) {
             /// cytoPaneleast.setState(CytoPanelState.DOCK);
         } else {

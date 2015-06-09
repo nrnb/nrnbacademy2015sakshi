@@ -463,10 +463,11 @@ public class CentiScaPeDirectedAlgorithm {
             ImplCentrality edgeBetweennessCentrality = new ImplCentrality(directedCentralities[11], true, mean, min, max);
             vectorResults.add(edgeBetweennessCentrality);
         }
-        centiscapecore.createCentiScaPeVisualizer();
-
-        centiscapecore.getvisualizer().setEnabled(vectorResults);
-        
+        if(!menu.analyzeMultiple)
+        {
+             centiscapecore.createCentiScaPeVisualizer();
+             centiscapecore.getvisualizer().setEnabled(vectorResults);
+        }
         
         
     }
