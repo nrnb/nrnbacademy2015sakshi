@@ -25,6 +25,7 @@ import org.cytoscape.application.swing.CytoPanelName;
 import org.cytoscape.centiscape.internal.CentiScaPeCore;
 import org.cytoscape.centiscape.internal.CentralitiesTable;
 import org.cytoscape.centiscape.internal.NodesComparisonTable;
+import org.cytoscape.centiscape.internal.charts.CentPlotNodesByNetworks;
 import org.cytoscape.model.CyEdge;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNode;
@@ -92,8 +93,9 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
              { 
                  String centralityName=((ImplCentrality)i.next()).getName();
                  System.out.println(networks.get(0).getDefaultNetworkTable().toString());
-                 addCentralityName(centralityName,m);
-                 m++;
+                 
+                 addCentralityName(centralityName);
+                
                  
              }
            
@@ -149,8 +151,12 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
 
    
     
-    public void addCentralityName (String name,int i){
+    public void addCentralityName (String name){
         JCheckBox j=new JCheckBox(name);
+        if(name.equals("Edge Betweenness Dir")|| name.equals("Edge Betweenness unDir"))
+        {
+            j.setEnabled(false);
+        }
         BoxLayout b;
         CentralityCheckboxes.add(j);
         b = new BoxLayout(CentralityCheckBoxPanel, BoxLayout.Y_AXIS);
@@ -187,6 +193,7 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
         nodeList = new javax.swing.JComboBox();
         tabulateButton = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JSeparator();
+        plotButton = new javax.swing.JButton();
         CentralityCheckBoxPanel = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         CentralityTabulateButton = new javax.swing.JButton();
@@ -247,6 +254,18 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
             }
         });
 
+        plotButton.setText("Plot");
+        plotButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                plotButtonMouseClicked(evt);
+            }
+        });
+        plotButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plotButtonActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout CentralityNodesPanelLayout = new org.jdesktop.layout.GroupLayout(CentralityNodesPanel);
         CentralityNodesPanel.setLayout(CentralityNodesPanelLayout);
         CentralityNodesPanelLayout.setHorizontalGroup(
@@ -256,6 +275,8 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
                 .add(nodeList, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(14, 14, 14)
                 .add(tabulateButton)
+                .add(18, 18, 18)
+                .add(plotButton)
                 .add(0, 0, Short.MAX_VALUE))
             .add(jSeparator4)
         );
@@ -265,7 +286,8 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
                 .add(4, 4, 4)
                 .add(CentralityNodesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(nodeList, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(tabulateButton))
+                    .add(tabulateButton)
+                    .add(plotButton))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jSeparator4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(0, 0, Short.MAX_VALUE))
@@ -385,6 +407,24 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
         // TODO add your handling code here:
     }//GEN-LAST:event_CentralityTabulateButtonActionPerformed
 
+    private void plotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_plotButtonActionPerformed
+
+    private void plotButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_plotButtonMouseClicked
+        // TODO add your handling code here:
+           ArrayList<String> centralityNames=new ArrayList<String>();
+        for (int i=0;i<CentralityCheckboxes.size();i++)
+        {
+            if(CentralityCheckboxes.get(i).isSelected())
+                 centralityNames.add(CentralityCheckboxes.get(i).getText());
+        }
+        ArrayList<CyNode> node=nodeMapping.get((String)nodeList.getSelectedItem());
+        CentPlotNodesByNetworks pbn=new CentPlotNodesByNetworks(networks,node,centralityNames);
+        pbn.setSize(700,400);
+        pbn.setVisible(true);
+    }//GEN-LAST:event_plotButtonMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CentralityCheckBoxPanel;
     private javax.swing.JPanel CentralityDisplay;
@@ -397,6 +437,7 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JComboBox nodeList;
+    private javax.swing.JButton plotButton;
     private javax.swing.JButton tabulateButton;
     // End of variables declaration//GEN-END:variables
 

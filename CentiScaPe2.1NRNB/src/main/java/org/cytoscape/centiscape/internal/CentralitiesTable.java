@@ -51,15 +51,11 @@ public class CentralitiesTable extends javax.swing.JFrame {
         int CentralitySize=centralityNames.size();
         String data[][]=new String[CentralitySize][networkSize+1];
         for (int j=0;j<CentralitySize;j++)
-            {
-                if(centralityNames.get(j).equals("Edge Betweenness Dir")|| centralityNames.get(j).equals("Edge Betweenness unDir"))
-                {
-                    continue;
-                }
-                  data[j]=new String[networkSize+1];
-                  data[j][0]=centralityNames.get(j);
+        {
+              data[j]=new String[networkSize+1];
+              data[j][0]=centralityNames.get(j);
 
-            }
+        }
         for(int i=0;i<networkSize;i++)
         {
             CyRow row=networks.get(i).getDefaultNodeTable().getRow(node.get(0).getSUID());
@@ -78,11 +74,6 @@ public class CentralitiesTable extends javax.swing.JFrame {
            {
                 for (int j=0;j<CentralitySize;j++)
             {
-                if(centralityNames.get(j).equals("Edge Betweenness Dir")|| centralityNames.get(j).equals("Edge Betweenness unDir"))
-                {
-                    continue;
-                }
-                    
                   Double d=row.get(centralityNames.get(j), Double.class);
                   data[j][i+1]=String.valueOf(d);
                   System.out.println(d + ""+centralityNames.get(j));
