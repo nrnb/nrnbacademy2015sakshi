@@ -60,6 +60,9 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
     static String edgeWeightAttribute;
     static Class<?> attrtype;
     private CentiScaPeDirectedAlgorithm algo;
+    public boolean useNodeAttribute;
+    public String nodeAttribute;
+    static Class<?> nodeAttrtype;
 
     public CentiScaPeStartMenu(CyActivator cyactivator, CentiScaPeCore centiscapecore) {
         initComponents();
@@ -130,6 +133,8 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
         DirectedNetworkHelpButton = new javax.swing.JButton();
         WeightedNetworkHelpButton = new javax.swing.JButton();
         multipleNetworksCheckBox = new javax.swing.JCheckBox();
+        nodeAttributeCheck = new javax.swing.JCheckBox();
+        NodeAttributeHelpButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         LoadAttributesButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -580,6 +585,24 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
             }
         });
 
+        nodeAttributeCheck.setText("  Node Attribute");
+        nodeAttributeCheck.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        nodeAttributeCheck.setMaximumSize(new java.awt.Dimension(300, 15));
+        nodeAttributeCheck.setMinimumSize(new java.awt.Dimension(180, 15));
+        nodeAttributeCheck.setPreferredSize(new java.awt.Dimension(286, 15));
+        nodeAttributeCheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nodeAttributeCheckActionPerformed(evt);
+            }
+        });
+
+        NodeAttributeHelpButton.setText("?");
+        NodeAttributeHelpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NodeAttributeHelpButtonActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -596,8 +619,23 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
                             .add(jProgressBar1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(jSeparator1))
                         .add(52, 52, 52))
+                    .add(jPanel2Layout.createSequentialGroup()
+                        .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(multipleNetworksCheckBox)
+                            .add(jPanel2Layout.createSequentialGroup()
+                                .add(StartButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 95, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(18, 18, 18)
+                                .add(StopButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 84, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(18, 18, 18)
+                                .add(ExitButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 83, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(startclient, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 210, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(0, 0, Short.MAX_VALUE))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
                         .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(jPanel2Layout.createSequentialGroup()
+                                .add(nodeAttributeCheck, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 260, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(NodeAttributeHelpButton))
                             .add(jPanel2Layout.createSequentialGroup()
                                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                     .add(directedRaidioButton)
@@ -610,18 +648,7 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
                                 .add(undirectedRadioButton)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .add(UndirectedNetworkHelpButton)))
-                        .add(34, 34, 34))
-                    .add(jPanel2Layout.createSequentialGroup()
-                        .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(multipleNetworksCheckBox)
-                            .add(jPanel2Layout.createSequentialGroup()
-                                .add(StartButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 95, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(18, 18, 18)
-                                .add(StopButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 84, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(18, 18, 18)
-                                .add(ExitButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 83, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                            .add(startclient, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 210, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .add(0, 0, Short.MAX_VALUE))))
+                        .add(34, 34, 34))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -644,14 +671,18 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(WeightedNetworkHelpButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 18, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(WeightedCheckBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(18, 18, 18)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(nodeAttributeCheck, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(NodeAttributeHelpButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 18, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(StartButton)
                     .add(StopButton)
                     .add(ExitButton))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(4, 4, 4)
                 .add(multipleNetworksCheckBox)
-                .add(29, 29, 29)
+                .add(18, 18, 18)
                 .add(startclient)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jLabelServerResponse, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 25, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -1413,6 +1444,33 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
                     return ;
                 }
             }
+             
+              //verify if it is weighted 
+            useNodeAttribute = nodeAttributeCheck.isSelected();
+            //enter the edge attribute to be selected - edge attribute name wich gives weights of edges
+             if (useNodeAttribute) {
+                // take attribute from user
+                nodeAttribute = JOptionPane.showInputDialog(null, "Enter the Node attribute to consider for the network");
+                try{
+                    CyColumn c=currentnetwork.getDefaultNodeTable().getColumn(nodeAttribute);
+                    if ( c == null) {
+                    //pop a menu showing that it is not in the list and 
+                    nodeAttribute = JOptionPane.showInputDialog(null, "Oops! there is no such attribute found in the node table. Looks like you have misspelled attribute name.\n"+"Enter the Node Attribute to be used for the network");              
+                }}catch(Exception ex){
+                    System.out.println("user has pressed cancel button. Aborting!");
+                    return;
+                }
+                nodeAttrtype=currentnetwork.getDefaultNodeTable().getColumn(nodeAttribute).getType() ;
+                if(!(nodeAttrtype == Double.class || nodeAttrtype == Integer.class || nodeAttrtype == Long.class)){
+                      JOptionPane.showMessageDialog(this.cyDesktopService.getJFrame(), nodeAttribute+
+                                " is neither an integer nor a double attribute! please specify the correct edge attribute",
+                                "CentiScaPe", JOptionPane.ERROR_MESSAGE);
+                        System.out.println("ERROR!!");
+                        return ;
+                }
+                 System.out.println(nodeAttribute +""+ nodeAttrtype);
+            }
+           
            
             inizio = System.currentTimeMillis();
             System.out.println("start time =" + inizio);
@@ -1941,6 +1999,14 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
         // TODO add your handling code here:
     }//GEN-LAST:event_multipleNetworksCheckBoxActionPerformed
 
+    private void nodeAttributeCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nodeAttributeCheckActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nodeAttributeCheckActionPerformed
+
+    private void NodeAttributeHelpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NodeAttributeHelpButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_NodeAttributeHelpButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox AverageDistanceCheckBox;
     private javax.swing.JButton AverageHelpButton;
@@ -1965,6 +2031,7 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
     private javax.swing.JButton EigenVectorHelpButton;
     private javax.swing.JButton ExitButton;
     private javax.swing.JButton LoadAttributesButton;
+    private javax.swing.JButton NodeAttributeHelpButton;
     private javax.swing.JCheckBox RadialityCheckBox;
     private javax.swing.JButton RadialityHelpButton;
     private javax.swing.JButton StartButton;
@@ -1996,6 +2063,7 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JCheckBox multipleNetworksCheckBox;
+    private javax.swing.JCheckBox nodeAttributeCheck;
     private javax.swing.JButton selectallButton;
     private javax.swing.JButton startclient;
     private javax.swing.JRadioButton undirectedRadioButton;
