@@ -62,7 +62,7 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
     private CentiScaPeDirectedAlgorithm algo;
     public boolean useNodeAttribute;
     public String nodeAttribute;
-    static Class<?> nodeAttrtype;
+    public Class<?> nodeAttrtype;
 
     public CentiScaPeStartMenu(CyActivator cyactivator, CentiScaPeCore centiscapecore) {
         initComponents();

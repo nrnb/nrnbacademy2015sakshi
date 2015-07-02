@@ -21,7 +21,7 @@ import org.cytoscape.model.CyTable;
  */
 public class CalculateEigenVector {
     
-    public static void executeAndWriteValues(double[][] adjacencyMatrixOfNetwork,CyNetwork network, List<CyNode> nodeList, CyTable nodeTable, String centralityName, Vector VectorResults, String directionType){
+    public static void executeAndWriteValues(double[][] adjacencyMatrixOfNetwork,CyNetwork network, List<CyNode> nodeList, CyTable nodeTable, String centralityName, Vector VectorResults, String directionType,boolean useNodeAttribute,String nodeAttribute,Class<?> nodeAttrtype){
         
         int numberOfNodes = nodeList.size();
         //double[][] adjacencyMatrixOfNetwork = new double[numberOfNodes][numberOfNodes];
@@ -40,8 +40,17 @@ public class CalculateEigenVector {
 
             
             double min = Double.MAX_VALUE, max = -Double.MAX_VALUE, totalsum = 0, currentvalue;
+            int mult=1;
+            double d=0;
             for (int j=0 ; j<numberOfNodes ; j++) {
                 currentvalue = EigenVectors[j][numberOfNodes-1];
+                CyRow row = nodeTable.getRow(nodeList.get(j).getSUID());
+                if(useNodeAttribute)
+                 {
+                     d=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
+                     mult=(int)(d+0.5);
+                     currentvalue=mult*currentvalue;
+                 }
                 
 
                 if (currentvalue < min) {
@@ -51,7 +60,6 @@ public class CalculateEigenVector {
                     max = currentvalue;
                 }
                 totalsum = totalsum + currentvalue;
-                CyRow row = nodeTable.getRow(nodeList.get(j).getSUID());
                 row.set(centralityName + directionType , new Double(currentvalue));
             }
             
