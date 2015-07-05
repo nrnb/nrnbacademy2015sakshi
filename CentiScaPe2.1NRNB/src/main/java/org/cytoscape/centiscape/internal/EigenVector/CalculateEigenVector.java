@@ -45,7 +45,7 @@ public class CalculateEigenVector {
             for (int j=0 ; j<numberOfNodes ; j++) {
                 currentvalue = EigenVectors[j][numberOfNodes-1];
                 CyRow row = nodeTable.getRow(nodeList.get(j).getSUID());
-                if(useNodeAttribute)
+                if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
                  {
                      d=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
                      mult=(int)(d+0.5);

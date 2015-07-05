@@ -406,9 +406,10 @@ public class CentiScaPeAlgorithm {
                 FinalResultEccentricity currentnodeeccentricity = (FinalResultEccentricity) i.next();
                 double currenteccentricity = currentnodeeccentricity.geteccentricity();
                 CyRow row = nodeTable.getRow(currentnodeeccentricity.getNode().getSUID());
-                if(useNodeAttribute)
+                if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
                 {
                     d=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
+                    if(d!=0)
                     mult=(int)(d+0.5);
                     currenteccentricity=mult*currenteccentricity;
                 }
@@ -451,7 +452,7 @@ public class CentiScaPeAlgorithm {
                 FinalResultCloseness currentnodecloseness = (FinalResultCloseness) i.next();
                 double currentcloseness = currentnodecloseness.getCloseness();
                 CyRow row = nodeTable.getRow(currentnodecloseness.getNode().getSUID());
-                if(useNodeAttribute)
+                if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
                 {
                     d=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
                     mult=(int)(d+0.5);
@@ -495,7 +496,7 @@ public class CentiScaPeAlgorithm {
 
                 double currentradiality = currentnoderadiality.getRadiality();
                 CyRow row = nodeTable.getRow(currentnoderadiality.getNode().getSUID());
-                if(useNodeAttribute)
+                if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
                 {
                     d=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
                     mult=(int)(d+0.5);
@@ -537,7 +538,7 @@ public class CentiScaPeAlgorithm {
                 FinalResultBetweenness currentnodebetweenness = (FinalResultBetweenness) i.next();
                 double currentbetweenness = currentnodebetweenness.getBetweenness();
                 CyRow row = nodeTable.getRow(currentnodebetweenness.getNode().getSUID());
-                if(useNodeAttribute)
+                if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
                 {
                     d=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
                     mult=(int)(d+0.5);
@@ -583,7 +584,7 @@ public class CentiScaPeAlgorithm {
 
                 double currentdegree = currentnodeDegree.getDegree();
                 CyRow row = nodeTable.getRow(currentnodeDegree.getNode().getSUID());
-               if(useNodeAttribute)
+               if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
                 {
                     d=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
                     mult=(int)(d+0.5);
@@ -631,7 +632,7 @@ public class CentiScaPeAlgorithm {
                 CyNode currentnode = network.getNode(currentnodeSUID);
                 double currentstress = (double) (Double) (currentmapentry.getValue());
                  CyRow row = nodeTable.getRow(currentnodeSUID);
-               if(useNodeAttribute)
+               if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
                  {
                      d=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
                      mult=(int)(d+0.5);
@@ -675,7 +676,7 @@ public class CentiScaPeAlgorithm {
 
                 double currentcentroid = currentnodeCentroid.getCentroid();
                 CyRow row = nodeTable.getRow(currentnodeCentroid.getNode().getSUID());
-                if(useNodeAttribute)
+                if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
                  {
                      d=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
                      mult=(int)(d+0.5);
@@ -718,7 +719,7 @@ public class CentiScaPeAlgorithm {
             nodeTable.createColumn("Bridging unDir", Double.class, false);
             vectorOfNodeAttributes.addElement("Bridging unDir");
             double min = Double.MAX_VALUE, max = -Double.MAX_VALUE, totalsum = 0, currentvalue;
-            int mult=0;
+            int mult=1;
             double d=0;
             for (Iterator i = BetweennessVectorResults.iterator(); i.hasNext();) {
                 FinalResultBetweenness currentnodebetweenness = (FinalResultBetweenness) i.next();
@@ -737,7 +738,7 @@ public class CentiScaPeAlgorithm {
                 }
                 double bridgingCentrality = bridgingCoefficient*currentbetweenness;
                 CyRow row = nodeTable.getRow(currentnodebetweenness.getNode().getSUID());
-                if(useNodeAttribute)
+                if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
                  {
                      d=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
                      mult=(int)(d+0.5);

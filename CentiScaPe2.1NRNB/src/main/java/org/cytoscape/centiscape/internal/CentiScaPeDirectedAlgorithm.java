@@ -319,7 +319,7 @@ public class CentiScaPeDirectedAlgorithm {
 
                 double currentbetweenness = currentnodebetweenness.getBetweenness();
                 CyRow row = nodeTable.getRow(currentnodebetweenness.getNode().getSUID());
-                if(useNodeAttribute)
+                if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
                  {
                      temp=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
                      mult=(int)(temp+0.5);
@@ -361,7 +361,7 @@ public class CentiScaPeDirectedAlgorithm {
 
                 double currentcentroid = currentnodeCentroid.getCentroid();
                 CyRow row = nodeTable.getRow(currentnodeCentroid.getNode().getSUID());
-                if(useNodeAttribute)
+                if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
                  {
                      temp=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
                      mult=(int)(temp+0.5);
@@ -402,7 +402,7 @@ public class CentiScaPeDirectedAlgorithm {
                 double currentbetweenness = currentnodebetweenness.getBetweenness();
                 CyNode root = currentnodebetweenness.getNode();
                 CyRow row = nodeTable.getRow(currentnodebetweenness.getNode().getSUID());
-                if(useNodeAttribute)
+                if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
                  {
                      temp=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
                      mult=(int)(temp+0.5);
@@ -522,7 +522,7 @@ public class CentiScaPeDirectedAlgorithm {
                 CyNode root = (CyNode) it.next();
                 currentvalue = values.get(root);
                 CyRow row = nodeTable.getRow(root.getSUID());
-                if(useNodeAttribute)
+                if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
                 {
                     temp=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
                     mult=(int)(temp+0.5);
