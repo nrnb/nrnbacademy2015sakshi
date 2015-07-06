@@ -102,10 +102,21 @@ public class CentiScaPeCore {
 
     public void closeCentiscapevisualizer() {
         for (Iterator i = visualizerlist.listIterator(); i.hasNext();) {
-            CentVisualizer currentvisualizer = (CentVisualizer) i.next();    
- 
-        cyServiceRegistrar.unregisterService(currentvisualizer, CytoPanelComponent.class);
-        }
+            Object visualizer=i.next();
+            Class<?> cl = visualizer.getClass();  
+            CentVisualizer currentsinglevisualizer;
+            CentMultiNetworkvisualizer currentmultivisualizer;
+            if(cl==CentVisualizer.class)
+            {
+                currentsinglevisualizer =(CentVisualizer)visualizer;
+                cyServiceRegistrar.unregisterService(currentsinglevisualizer, CytoPanelComponent.class);
+            }
+            else
+            {
+                currentmultivisualizer =(CentMultiNetworkvisualizer)visualizer;
+                cyServiceRegistrar.unregisterService(currentmultivisualizer, CytoPanelComponent.class);
+            }
+            }
     }
 
     public CentVisualizer getvisualizer() {

@@ -47,7 +47,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
               <Component id="ExitButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="269" max="32767" attributes="0"/>
+              <EmptySpace pref="240" max="32767" attributes="0"/>
           </Group>
           <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
       </Group>
@@ -108,7 +108,9 @@
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                   <Component id="tabulateButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="plotButton" min="-2" max="-2" attributes="0"/>
+                  <Component id="plotBarButton" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="plotLineButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
               <Component id="jSeparator4" alignment="0" max="32767" attributes="0"/>
@@ -121,7 +123,8 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="nodeList" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="tabulateButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="plotButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="plotBarButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="plotLineButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jSeparator4" min="-2" pref="10" max="-2" attributes="0"/>
@@ -155,13 +158,22 @@
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator4">
         </Component>
-        <Component class="javax.swing.JButton" name="plotButton">
+        <Component class="javax.swing.JButton" name="plotBarButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Plot"/>
+            <Property name="text" type="java.lang.String" value="Plot Bar graph"/>
           </Properties>
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="plotButtonMouseClicked"/>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="plotButtonActionPerformed"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="plotBarButtonMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="plotBarButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="plotLineButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Plot Line graph"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="plotLineButtonMouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="plotLineButtonActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
