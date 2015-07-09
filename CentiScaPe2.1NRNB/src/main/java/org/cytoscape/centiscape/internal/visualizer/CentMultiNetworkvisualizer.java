@@ -89,7 +89,6 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
              centralities = hm.get(networks.get(0));
              centralitiesHashMap=hm;
              Iterator i=centralities.iterator();
-             int m=0;
                 
              while(i.hasNext())
              { 
@@ -194,12 +193,14 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
         CentralityNodesPanel = new javax.swing.JPanel();
         nodeList = new javax.swing.JComboBox();
         tabulateButton = new javax.swing.JButton();
-        jSeparator4 = new javax.swing.JSeparator();
         plotBarButton = new javax.swing.JButton();
         plotLineButton = new javax.swing.JButton();
         CentralityCheckBoxPanel = new javax.swing.JPanel();
+        plotType = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
         CentralityTabulateButton = new javax.swing.JButton();
+        jSeparator4 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -281,36 +282,6 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
             }
         });
 
-        org.jdesktop.layout.GroupLayout CentralityNodesPanelLayout = new org.jdesktop.layout.GroupLayout(CentralityNodesPanel);
-        CentralityNodesPanel.setLayout(CentralityNodesPanelLayout);
-        CentralityNodesPanelLayout.setHorizontalGroup(
-            CentralityNodesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(CentralityNodesPanelLayout.createSequentialGroup()
-                .add(12, 12, 12)
-                .add(nodeList, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(14, 14, 14)
-                .add(tabulateButton)
-                .add(18, 18, 18)
-                .add(plotBarButton)
-                .add(18, 18, 18)
-                .add(plotLineButton)
-                .add(0, 0, Short.MAX_VALUE))
-            .add(jSeparator4)
-        );
-        CentralityNodesPanelLayout.setVerticalGroup(
-            CentralityNodesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(CentralityNodesPanelLayout.createSequentialGroup()
-                .add(4, 4, 4)
-                .add(CentralityNodesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(nodeList, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(tabulateButton)
-                    .add(plotBarButton)
-                    .add(plotLineButton))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jSeparator4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(0, 0, Short.MAX_VALUE))
-        );
-
         CentralityCheckBoxPanel.setInheritsPopupMenu(true);
 
         org.jdesktop.layout.GroupLayout CentralityCheckBoxPanelLayout = new org.jdesktop.layout.GroupLayout(CentralityCheckBoxPanel);
@@ -322,6 +293,44 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
         CentralityCheckBoxPanelLayout.setVerticalGroup(
             CentralityCheckBoxPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(0, 23, Short.MAX_VALUE)
+        );
+
+        plotType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Original Value", "Norm by max" }));
+
+        org.jdesktop.layout.GroupLayout CentralityNodesPanelLayout = new org.jdesktop.layout.GroupLayout(CentralityNodesPanel);
+        CentralityNodesPanel.setLayout(CentralityNodesPanelLayout);
+        CentralityNodesPanelLayout.setHorizontalGroup(
+            CentralityNodesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(CentralityNodesPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(CentralityNodesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(CentralityNodesPanelLayout.createSequentialGroup()
+                        .add(nodeList, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(18, 18, 18)
+                        .add(tabulateButton))
+                    .add(CentralityNodesPanelLayout.createSequentialGroup()
+                        .add(plotBarButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(plotLineButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(plotType, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .add(0, 0, Short.MAX_VALUE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, CentralityCheckBoxPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        CentralityNodesPanelLayout.setVerticalGroup(
+            CentralityNodesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(CentralityNodesPanelLayout.createSequentialGroup()
+                .add(CentralityCheckBoxPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(CentralityNodesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(nodeList, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(tabulateButton))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(CentralityNodesPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(plotBarButton)
+                    .add(plotLineButton)
+                    .add(plotType, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(0, 12, Short.MAX_VALUE))
         );
 
         CentralityTabulateButton.setText("Tabulate All Centralities");
@@ -340,31 +349,40 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jSeparator4)
+            .add(jPanel2Layout.createSequentialGroup()
+                .add(86, 86, 86)
                 .add(CentralityTabulateButton)
-                .add(174, 174, 174))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel2Layout.createSequentialGroup()
-                .add(CentralityTabulateButton)
-                .add(20, 20, 20))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jSeparator4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(CentralityTabulateButton))
         );
+
+        jLabel1.setText("Nodewise Computations");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jSeparator1)
-            .add(CentralityCheckBoxPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .add(CentralityNodesPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, CentralityDisplay, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .add(layout.createSequentialGroup()
-                .add(110, 110, 110)
-                .add(ExitButton)
-                .addContainerGap(240, Short.MAX_VALUE))
             .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(layout.createSequentialGroup()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(110, 110, 110)
+                        .add(ExitButton))
+                    .add(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(jLabel1)))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -372,9 +390,9 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
                 .add(ExitButton)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(CentralityCheckBoxPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jLabel1)
+                .add(10, 10, 10)
                 .add(CentralityNodesPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -449,7 +467,8 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
                             "CentiScaPe", JOptionPane.INFORMATION_MESSAGE);
         else{
             ArrayList<CyNode> node=nodeMapping.get((String)nodeList.getSelectedItem());
-            CentPlotNodesByNetworks pbn=new CentPlotNodesByNetworks(networks,node,centralityNames);
+            String type=(String)plotType.getSelectedItem();
+            CentPlotNodesByNetworks pbn=new CentPlotNodesByNetworks(networks,node,centralityNames,centralitiesHashMap,type);
             pbn.setSize(700,400);
             pbn.setVisible(true);
         }
@@ -468,7 +487,8 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
                             "CentiScaPe", JOptionPane.INFORMATION_MESSAGE);
         else{
             ArrayList<CyNode> node=nodeMapping.get((String)nodeList.getSelectedItem());
-            CentPlotLineNodesByNetworks pbn=new CentPlotLineNodesByNetworks(networks,node,centralityNames);
+            String type=(String)plotType.getSelectedItem();
+            CentPlotLineNodesByNetworks pbn=new CentPlotLineNodesByNetworks(networks,node,centralityNames,centralitiesHashMap,type);
             pbn.setSize(700,400);
             pbn.setVisible(true);
         }
@@ -484,6 +504,7 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
     private javax.swing.JPanel CentralityNodesPanel;
     private javax.swing.JButton CentralityTabulateButton;
     private javax.swing.JButton ExitButton;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
@@ -492,6 +513,7 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
     private javax.swing.JComboBox nodeList;
     private javax.swing.JButton plotBarButton;
     private javax.swing.JButton plotLineButton;
+    private javax.swing.JComboBox plotType;
     private javax.swing.JButton tabulateButton;
     // End of variables declaration//GEN-END:variables
 

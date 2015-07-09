@@ -3,6 +3,7 @@ package org.cytoscape.centiscape.internal.charts;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -34,16 +35,19 @@ public class CentPlotNodesByNetworks extends JFrame {
     public  DefaultCategoryDataset dds = new DefaultCategoryDataset();
   
     public List <CyNetwork> networks;
+    private final HashMap CentralityHashMap;
+    private final String plottype;
 
     // polymorphic constructor
-    public CentPlotNodesByNetworks(List <CyNetwork> networks,ArrayList<CyNode> nodes,ArrayList <String> centralityNames) {
+    public CentPlotNodesByNetworks(List <CyNetwork> networks,ArrayList<CyNode> nodes,ArrayList <String> centralityNames,HashMap CentralityHashMap,String plottype) {
       
 
         super("Plot By Node visualization");
         this.networks = networks;
         this.setDefaultCloseOperation(this.HIDE_ON_CLOSE);
         this.centralityNames = centralityNames;
-
+        this.plottype=plottype;
+        this.CentralityHashMap=CentralityHashMap;
         this.nodes = nodes;
         JPanel jpanel = createDemoPanel();
      
@@ -77,10 +81,26 @@ public class CentPlotNodesByNetworks extends JFrame {
            if(value!=null)
            {
                networkExists[i]=true;
+               double total=1;
                 for (int j=0;j<CentralitySize;j++)
                 {
-                    
-                      data[j][i]=row.get(centralityNames.get(j), Double.class);
+                    if(plottype.equals("Norm by max"))
+                    {
+                        String name=centralityNames.get(0).split(" ")[0];
+                        Vector v=(Vector)CentralityHashMap.get(networks.get(i));
+                        for (int z=0;z<v.size();z++)
+                        {
+                            String n=((Centrality)v.get(j)).getName();
+                            if(n.equals(name))
+                            {
+                                break;
+                            }
+                        }
+                        total=((Centrality)v.get(j)).getMaxValue();
+                        if(total==0)
+                            total=1;
+                    }
+               data[j][i]=row.get(centralityNames.get(j), Double.class)/total;
                      
                 }
            }

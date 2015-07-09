@@ -46,34 +46,36 @@ public class NodesComparisonTable extends javax.swing.JFrame {
        Object a[]=CentralityHashMap.keySet().toArray();
        int networkSize=a.length;
        int centralitySize=((Vector)CentralityHashMap.get((CyNetwork)a[0])).size();
-       String data[][]=new String[centralitySize*3][networkSize+1];
-       Object columns[]=new Object[networkSize+1];
+       String data[][]=new String[networkSize][centralitySize*3+1];
+       Object columns[]=new Object[centralitySize*3+1];
        columns[0]="Centralities";
        for(int i=0;i<networkSize;i++)
        {
-           columns[i+1]=a[i];
-           Vector v=(Vector)CentralityHashMap.get((CyNetwork)a[i]);
+            Vector v=(Vector)CentralityHashMap.get((CyNetwork)a[i]);
+            data[i][0]=a[i].toString();
+ 
+            
            for(int j=0;j<centralitySize;j++)
            {
                if(i==0)
                {
-                   String name=((Centrality)v.get(j)).getName();
-                   data[j*3][0]=name+" Average Value";
-                   data[j*3+1][0]=name+" Maximum Value";
-                   data[j*3+2][0]=name+" Minimum Value";
-           
-              
+                    String name=((Centrality)v.get(j)).getName();
+                    columns[j*3+1]=name+" Average Value";
+                    columns[j*3+2]=name+" Maximum Value";
+                    columns[j*3+3]=name+" Minimum Value";
                }
-               
-               data[j*3][i+1]=String.valueOf(((Centrality)v.get(j)).getDefaultValue());
-               data[j*3+1][i+1]=String.valueOf(((Centrality)v.get(j)).getMaxValue());
-               data[j*3+2][i+1]=String.valueOf(((Centrality)v.get(j)).getMinValue());
+                
+               data[i][j*3+1]=String.valueOf(((Centrality)v.get(j)).getDefaultValue());
+               data[i][j*3+2]=String.valueOf(((Centrality)v.get(j)).getMaxValue());
+               data[i][j*3+3]=String.valueOf(((Centrality)v.get(j)).getMinValue());
            }
        }
       
         
         jScrollPane1 = new javax.swing.JScrollPane();
         CentrJTable=new JTable(data,columns);
+        CentrJTable.setAutoCreateRowSorter(true);
+        CentrJTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         jScrollPane1.setViewportView(CentrJTable);
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
