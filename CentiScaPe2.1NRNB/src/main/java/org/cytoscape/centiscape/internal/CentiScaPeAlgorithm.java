@@ -107,8 +107,11 @@ public class CentiScaPeAlgorithm {
         isWeighted = menustart.isWeighted;
         useNodeAttribute = menustart.useNodeAttribute;
         nodeAttribute=menustart.nodeAttribute;
-        nodeAttrtype=menustart.nodeAttrtype;
-        
+        if(nodeAttribute!=null &&  network.getDefaultNodeTable().getColumn(nodeAttribute)!=null)
+            nodeAttrtype=network.getDefaultNodeTable().getColumn(nodeAttribute).getType();
+        if(!(nodeAttrtype == Double.class || nodeAttrtype == Integer.class || nodeAttrtype == Long.class)){
+               useNodeAttribute=false;
+         }
         // JOptionPane.showMessageDialog(view.getComponent(),
         //          "comincio1 = ");
 

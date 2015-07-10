@@ -78,7 +78,11 @@ public class CentiScaPeDirectedAlgorithm {
         isWeighted = menu.isWeighted;
         useNodeAttribute = menu.useNodeAttribute;
         nodeAttribute=menu.nodeAttribute;
-        nodeAttrtype=menu.nodeAttrtype;
+        if(nodeAttribute!=null &&  network.getDefaultNodeTable().getColumn(nodeAttribute)!=null)
+            nodeAttrtype=network.getDefaultNodeTable().getColumn(nodeAttribute).getType();
+        if(!(nodeAttrtype == Double.class || nodeAttrtype == Integer.class || nodeAttrtype == Long.class)){
+               useNodeAttribute=false;
+         }
         this.centiscapecore = core;
         System.out.println("Entered Directed algo");
         

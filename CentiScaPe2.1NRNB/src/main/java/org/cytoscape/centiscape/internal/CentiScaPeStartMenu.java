@@ -62,7 +62,6 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
     private CentiScaPeDirectedAlgorithm algo;
     public boolean useNodeAttribute;
     public String nodeAttribute;
-    public Class<?> nodeAttrtype;
 
     public CentiScaPeStartMenu(CyActivator cyactivator, CentiScaPeCore centiscapecore) {
         initComponents();
@@ -1451,25 +1450,7 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
              if (useNodeAttribute) {
                 // take attribute from user
                 nodeAttribute = JOptionPane.showInputDialog(null, "Enter the Node attribute to consider for the network");
-                try{
-                    CyColumn c=currentnetwork.getDefaultNodeTable().getColumn(nodeAttribute);
-                    if ( c == null) {
-                    //pop a menu showing that it is not in the list and 
-                    nodeAttribute = JOptionPane.showInputDialog(null, "Oops! there is no such attribute found in the node table. Looks like you have misspelled attribute name.\n"+"Enter the Node Attribute to be used for the network");              
-                }}catch(Exception ex){
-                    System.out.println("user has pressed cancel button. Aborting!");
-                    return;
-                }
-                nodeAttrtype=currentnetwork.getDefaultNodeTable().getColumn(nodeAttribute).getType() ;
-                if(!(nodeAttrtype == Double.class || nodeAttrtype == Integer.class || nodeAttrtype == Long.class)){
-                      JOptionPane.showMessageDialog(this.cyDesktopService.getJFrame(), nodeAttribute+
-                                " is neither an integer nor a double attribute! please specify the correct edge attribute",
-                                "CentiScaPe", JOptionPane.ERROR_MESSAGE);
-                        System.out.println("ERROR!!");
-                        return ;
-                }
-                 System.out.println(nodeAttribute +""+ nodeAttrtype);
-            }
+             }
            
            
             inizio = System.currentTimeMillis();
