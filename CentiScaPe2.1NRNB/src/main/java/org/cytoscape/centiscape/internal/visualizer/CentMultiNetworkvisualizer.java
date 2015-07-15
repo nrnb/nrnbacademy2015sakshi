@@ -347,12 +347,11 @@ public class CentMultiNetworkvisualizer extends javax.swing.JPanel implements Ob
                     .add(tabulateButton)))
             .add(nodeComputationPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(nodeComputationPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(nodeComputationPanelLayout.createSequentialGroup()
-                        .add(6, 6, 6)
-                        .add(jSeparator7))
-                    .add(CentralityCheckBoxPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(CentralityCheckBoxPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, nodeComputationPanelLayout.createSequentialGroup()
+                .add(jSeparator7)
+                .add(24, 24, 24))
         );
         nodeComputationPanelLayout.setVerticalGroup(
             nodeComputationPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
