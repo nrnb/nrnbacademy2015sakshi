@@ -24,7 +24,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-public class CentPlotNodesByNetworks extends JFrame {
+public class CentPlotBarNodesByNetworks extends JFrame {
 
     ArrayList <String> centralityNames;
    
@@ -39,7 +39,7 @@ public class CentPlotNodesByNetworks extends JFrame {
     private final String plottype;
 
     // polymorphic constructor
-    public CentPlotNodesByNetworks(List <CyNetwork> networks,ArrayList<CyNode> nodes,ArrayList <String> centralityNames,HashMap CentralityHashMap,String plottype) {
+    public CentPlotBarNodesByNetworks(List <CyNetwork> networks,ArrayList<CyNode> nodes,ArrayList <String> centralityNames,HashMap CentralityHashMap,String plottype) {
       
 
         super("Plot By Node visualization");
