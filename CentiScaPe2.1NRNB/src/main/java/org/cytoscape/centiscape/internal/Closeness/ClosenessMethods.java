@@ -27,7 +27,7 @@ public class ClosenessMethods {
     public ClosenessMethods() {
     }
     
-      public static FinalResultCloseness CalculateCloseness(Vector SingleShortestPathVector,CyNode CurrentRoot ) {
+      public static FinalResultCloseness CalculateCloseness(Vector SingleShortestPathVector,CyNode CurrentRoot,boolean useNodeAttribute,int currentNodeAttr ) {
            
             int CurrentClosenessSum=0;
            // Vector ClosenessVector = new Vector();
@@ -44,7 +44,7 @@ public class ClosenessMethods {
                    
                 double CurrentClosenessValue =0 ;
                 if(!SingleShortestPathVector.isEmpty()){
-                        CurrentClosenessValue = (1/(double)CurrentClosenessSum);
+                        CurrentClosenessValue = (1/(double)CurrentClosenessSum*currentNodeAttr);
                 }
                 CurrentCloseness.update(CurrentClosenessValue);
                 //ClosenessVector.addElement(CurrentCloseness);

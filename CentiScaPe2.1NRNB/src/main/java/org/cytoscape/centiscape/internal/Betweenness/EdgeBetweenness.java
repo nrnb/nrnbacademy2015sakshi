@@ -38,8 +38,8 @@ public class EdgeBetweenness {
         }
     }
     
-    public void updateEdgeBetweenness(Vector CentiScaPeMultiShortestPathVector){
-        int numberOfPaths = CentiScaPeMultiShortestPathVector.size();
+    public void updateEdgeBetweenness(Vector CentiScaPeMultiShortestPathVector, int CentiScaPeMultiShortestPathVectorSize){
+        int numberOfPaths = CentiScaPeMultiShortestPathVectorSize;
         
         for (int j = 0; j < numberOfPaths; j++) {
             CentiScaPeShortestPathList currentList;
@@ -62,7 +62,8 @@ public class EdgeBetweenness {
                 //((CentiScaPeMultiSPath)currentList.get(i)).getNode().;
                 List<CyEdge> edges = network.getConnectingEdgeList(((CentiScaPeMultiSPath)currentList.get(i)).getNode(), ((CentiScaPeMultiSPath)currentList.get(i+1)).getNode(), CyEdge.Type.ANY);
                 //System.out.println(edges.size());
-                edgeBetweennessValues.put(edges.get(0), edgeBetweennessValues.get(edges.get(0))+(1.0/factor));
+                if(edges.size()>0)
+                    edgeBetweennessValues.put(edges.get(0), edgeBetweennessValues.get(edges.get(0))+(1.0/factor));
             }
         }
         

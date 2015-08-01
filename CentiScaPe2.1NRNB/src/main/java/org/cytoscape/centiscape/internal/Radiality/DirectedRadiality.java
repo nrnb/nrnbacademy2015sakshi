@@ -23,7 +23,6 @@ public class DirectedRadiality {
 		CurrentList = (CentiScaPeShortestPathList) CentiScaPeSingleShortestPathVector.get(j);
                 distance = ((CentiScaPeMultiSPath)CurrentList.getLast()).getCost();
                 radiality = radiality - (1/(double)distance);
-		
 	}
         if(radiality==0.0){
             return radiality;

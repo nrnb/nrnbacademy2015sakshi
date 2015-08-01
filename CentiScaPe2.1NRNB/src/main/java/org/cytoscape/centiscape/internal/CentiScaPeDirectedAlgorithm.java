@@ -61,9 +61,9 @@ public class CentiScaPeDirectedAlgorithm {
     public CentiScaPeCore centiscapecore;
     public Vector vectorResults = new Vector();
     public Boolean isWeighted;
-    private static boolean useNodeAttribute;
-    public static String nodeAttribute;
-    public static Class<?> nodeAttrtype;
+    public Boolean useNodeAttribute;
+    public String nodeAttribute;
+    public Class<?> nodeAttrtype;
     
     public static void stopAlgo(){
         stop = true;
@@ -75,6 +75,7 @@ public class CentiScaPeDirectedAlgorithm {
         checkedCentralities = c;
         directedCentralities = d;
         CentiScaPeStartMenu menu = (CentiScaPeStartMenu) panel;
+        isWeighted = menu.isWeighted;
         isWeighted = menu.isWeighted;
         useNodeAttribute = menu.useNodeAttribute;
         nodeAttribute=menu.nodeAttribute;
@@ -95,6 +96,28 @@ public class CentiScaPeDirectedAlgorithm {
         CyTable networkTable = network.getDefaultNetworkTable();
         List<CyNode> nodeList = network.getNodeList();
         Vector CentiScaPeMultiShortestPathVector = null;
+        int nodeAttrList[]=new int[totalnodecount];
+        int CentiScaPeMultiShortestPathVectorOriginalSize;
+        if(useNodeAttribute)
+            {   totalnodecount=0;
+                for(int m=0;m< nodeList.size();m++){
+                    CyNode node=(CyNode) nodeList.get(m);
+                    CyRow row = nodeTable.getRow(node.getSUID());
+                    if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
+                    {
+                        int temp=((Number)(row.get(nodeAttribute, nodeAttrtype))).intValue();
+                        if(temp!=0)
+                            {
+                                totalnodecount=totalnodecount+temp;
+                                nodeAttrList[m]=temp;
+                            }
+                        else {
+                            nodeAttrList[m]=1;
+                        }
+                        
+                    }
+                }
+            }
         
         if(checkedCentralities[7]){
             displayBetweennessResults = true;
@@ -180,22 +203,33 @@ public class CentiScaPeDirectedAlgorithm {
 	}
 	TreeMap inizializedmap = new TreeMap(Stressmap);
         int k=0;
+        int currentNodeAttr=1;
         singleShortestPaths = new HashMap<CyNode,Vector>();
 	for (CyNode root : nodeList) {
                 if (stop) {
                     //unselectallnodes(network);
                     return;
                 }
+            CyRow row;
+            if(useNodeAttribute)
+            {   
+                row = network.getDefaultNodeTable().getRow(root.getSUID());
+                int temp=((Number)(row.get(nodeAttribute, nodeAttrtype))).intValue();
+                if(temp!=0)
+                {
+                    currentNodeAttr=temp;
+                }
+            }
                 
 		CentiScaPeMultiShortestPathVector = new Vector();
 		CentiScaPeMultiShortestPathVector = CentiScaPeMultiShortestPathTreeAlgorithm
 				.ExecuteMultiShortestPathTreeAlgorithm(network,
-						root, StressisOn, BetweennessisOn,inizializedmap, true, isWeighted);
+						root, StressisOn, BetweennessisOn,inizializedmap, true, isWeighted,menu);
 		Vector CentiScaPeSingleShortestPathVector = new Vector();
 		Vector NodesFound = new Vector();
 		CentiScaPeShortestPathList CurrentList;
-		for (int j = 0; j < CentiScaPeMultiShortestPathVector
-                    .size(); j++) {
+                CentiScaPeMultiShortestPathVectorOriginalSize=CentiScaPeMultiShortestPathVector.size();
+		for (int j = 0; j < CentiScaPeMultiShortestPathVectorOriginalSize; j++) {
 
 			CurrentList = (CentiScaPeShortestPathList) CentiScaPeMultiShortestPathVector
 					.get(j);
@@ -208,11 +242,37 @@ public class CentiScaPeDirectedAlgorithm {
                                 //if(((CentiScaPeMultiSPath)node).getName()==nodename && x==CurrentList.size()){
                                     NodesFound.add(nodename);
                                     CentiScaPeSingleShortestPathVector.add(CurrentList);
+                                      if(useNodeAttribute)
+                                        {   CyNode node=((CentiScaPeMultiSPath) CurrentList.getLast()).getNode();
+                                            int index=nodeList.indexOf(node);
+                                            for(int m=1;m<nodeAttrList[index];m++)
+                                            {
+                                                CentiScaPeSingleShortestPathVector.add(CurrentList);
+
+                                            }
+                                        }
                                 //}
                             //}
 			}
                         
 		}
+                if(useNodeAttribute )
+                {
+                    
+                    for (int j = 0; j < CentiScaPeMultiShortestPathVectorOriginalSize ; j++) {
+                        CurrentList = (CentiScaPeShortestPathList) CentiScaPeMultiShortestPathVector.get(j);
+                        int mult=1;
+                        for(int m=0;m<CurrentList.size();m++){
+                                CyNode node=((CentiScaPeMultiSPath)CurrentList.get(m)).getNode();
+                                int index=nodeList.indexOf(node);
+                                mult=mult*nodeAttrList[index];
+                        }
+                        for(int m=0;m<mult;m++){
+                            CentiScaPeMultiShortestPathVector.add(CurrentList);
+                        }
+
+                      }
+              }
                 double currentdiametervalue;
                 currentdiametervalue = CalculateDiameter(CentiScaPeSingleShortestPathVector);
                 if (Diameter < currentdiametervalue) {
@@ -223,7 +283,7 @@ public class CentiScaPeDirectedAlgorithm {
                     BetweennessMethods.updateBetweenness(CentiScaPeMultiShortestPathVector, BetweennessVectorResults);
                 }
                 if (checkedCentralities[11]){
-                    edgeBetweenness.updateEdgeBetweenness(CentiScaPeMultiShortestPathVector);
+                    edgeBetweenness.updateEdgeBetweenness(CentiScaPeMultiShortestPathVector,CentiScaPeMultiShortestPathVectorOriginalSize);
                 }
                 singleShortestPaths.put(root, CentiScaPeSingleShortestPathVector);
         }   
@@ -234,27 +294,55 @@ public class CentiScaPeDirectedAlgorithm {
                 return;
             }
             CyNode root = element.getKey();
+            int index=nodeList.indexOf(root);
+            currentNodeAttr=nodeAttrList[index];
+            if(currentNodeAttr==0)
+                currentNodeAttr=1;
             Vector CentiScaPeSingleShortestPathVector = element.getValue();
             
             if(checkedCentralities[1]){
                 CentiScaPeShortestPathList currentlist;
                 for (int j = 0; j < CentiScaPeSingleShortestPathVector.size(); j++) {
                     currentlist = (CentiScaPeShortestPathList) CentiScaPeSingleShortestPathVector.elementAt(j);
-                    totalDist = totalDist + ((CentiScaPeMultiSPath)currentlist.get(currentlist.size()-1)).getCost();
+                    totalDist = totalDist + ((CentiScaPeMultiSPath)currentlist.get(currentlist.size()-1)).getCost()*currentNodeAttr;
                 }
             }
             if(checkedCentralities[2]){
-                directedOutDegreeValues.put(root, (double) (network.getNeighborList(root,CyEdge.Type.OUTGOING).size()));
-                directedInDegreeValues.put(root, (double) (network.getNeighborList(root,CyEdge.Type.INCOMING).size()));
+                if(useNodeAttribute){
+                double currentDegreeOut = network.getNeighborList(root, CyEdge.Type.OUTGOING).size();
+                double currentDegreeIn = network.getNeighborList(root, CyEdge.Type.INCOMING).size();
+                int totalDegreeCountOut=0,totalDegreeCountIn=0;
+                for(int m=0;m<currentDegreeOut;m++)
+                {
+                    CyNode node=network.getNeighborList(root, CyEdge.Type.OUTGOING).get(m);
+                    int ind=nodeList.indexOf(node);
+                    totalDegreeCountOut=totalDegreeCountOut+nodeAttrList[ind];
+                }
+                for(int m=0;m<currentDegreeIn;m++)
+                {
+                    CyNode node=network.getNeighborList(root, CyEdge.Type.INCOMING).get(m);
+                    int ind=nodeList.indexOf(node);
+                    totalDegreeCountOut=totalDegreeCountOut+nodeAttrList[ind];
+                }
+                directedOutDegreeValues.put(root, totalDegreeCountOut*1.0);
+                directedInDegreeValues.put(root, totalDegreeCountIn*1.0);
+                }
+                
+                else{
+                    directedOutDegreeValues.put(root, (double) (network.getNeighborList(root,CyEdge.Type.OUTGOING).size()));
+                    directedInDegreeValues.put(root, (double) (network.getNeighborList(root,CyEdge.Type.INCOMING).size()));
+                        }
+                
             }
             if(checkedCentralities[3]){
                 directedEccentrityValues.put(root, DirectedEccentricity.execute(CentiScaPeSingleShortestPathVector));
             }
             if(checkedCentralities[4]){
-                directedRadialityValues.put(root, DirectedRadiality.execute(Diameter, totalnodecount, CentiScaPeSingleShortestPathVector));
+                directedRadialityValues.put(root, DirectedRadiality.execute(Diameter, totalnodecount, CentiScaPeSingleShortestPathVector)*currentNodeAttr);
+               
             }
             if(checkedCentralities[5]){
-                directedClosenessValues.put(root, DirectedCloseness.execute(CentiScaPeSingleShortestPathVector));
+                directedClosenessValues.put(root, DirectedCloseness.execute(CentiScaPeSingleShortestPathVector)/currentNodeAttr);
             }
             if (checkedCentralities[8]) {
                 CentroidMethods.updateCentroid(CentiScaPeSingleShortestPathVector, root, totalnodecount, CentroidVectorofNodes, CentroidVectorResults);
@@ -315,20 +403,12 @@ public class CentiScaPeDirectedAlgorithm {
             nodeTable.createColumn(directedCentralities[7], Double.class, false);
             
             double min = Double.MAX_VALUE, max = -Double.MAX_VALUE, totalsum = 0, currentvalue;
-            int mult;
-            double temp;
+
             for (Iterator i = BetweennessVectorResults.iterator(); i.hasNext();) {
 
                 FinalResultBetweenness currentnodebetweenness = (FinalResultBetweenness) i.next();
 
                 double currentbetweenness = currentnodebetweenness.getBetweenness();
-                CyRow row = nodeTable.getRow(currentnodebetweenness.getNode().getSUID());
-                if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
-                 {
-                     temp=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
-                     mult=(int)(temp+0.5);
-                     currentbetweenness=mult*currentbetweenness;
-                 }
 
                 if (currentbetweenness < min) {
                     min = currentbetweenness;
@@ -339,6 +419,7 @@ public class CentiScaPeDirectedAlgorithm {
                 totalsum = totalsum + currentbetweenness;
                 
                 
+            CyRow row = nodeTable.getRow(currentnodebetweenness.getNode().getSUID());
              row.set(directedCentralities[7], new Double(currentbetweenness));
               }
             networkTable.createColumn(directedCentralities[7].split(" ")[0]+" Max value Dir", Double.class, false);
@@ -356,21 +437,12 @@ public class CentiScaPeDirectedAlgorithm {
             nodeTable.createColumn(directedCentralities[8], Double.class, false);
             //vectorOfNodeAttributes.addElement("CentiScaPe Centroid");
             double min = Double.MAX_VALUE, max = -Double.MAX_VALUE, totalsum = 0, currentvalue;
-            double temp;
-            int mult;
             for (Iterator i = CentroidVectorResults.iterator(); i.hasNext();) {
 
 
                 FinalResultCentroid currentnodeCentroid = (FinalResultCentroid) i.next();
 
                 double currentcentroid = currentnodeCentroid.getCentroid();
-                CyRow row = nodeTable.getRow(currentnodeCentroid.getNode().getSUID());
-                if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
-                 {
-                     temp=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
-                     mult=(int)(temp+0.5);
-                     currentcentroid=mult*currentcentroid;
-                 }
 
                 if (currentcentroid < min) {
                     min = currentcentroid;
@@ -379,6 +451,7 @@ public class CentiScaPeDirectedAlgorithm {
                     max = currentcentroid;
                 }
                 totalsum = totalsum + currentcentroid;
+                CyRow row = nodeTable.getRow(currentnodeCentroid.getNode().getSUID());
                 row.set(directedCentralities[8], new Double(currentcentroid));
             }
             networkTable.createColumn(directedCentralities[8].split(" ")[0]+" Max value Dir", Double.class, false);
@@ -393,34 +466,61 @@ public class CentiScaPeDirectedAlgorithm {
             vectorResults.add(centroidCentrality);
         }
         if(checkedCentralities[9]){
-            CalculateEigenVector.executeAndWriteValues(adjacencyMatrixOfNetwork,network, nodeList,nodeTable,"EigenVector ", vectorResults, "Dir",useNodeAttribute,nodeAttribute, nodeAttrtype);
+            if(useNodeAttribute)
+            {
+                int completedCount=nodeAttrList.length;
+                for(int m=0;m<nodeAttrList.length;m++)
+                {
+                    for( int i=0;i<nodeAttrList[m]-1;i++)
+                    {
+                        for(int j=0;j<nodeAttrList.length;j++){
+                             adjacencyMatrixOfNetwork[j][completedCount+i]=adjacencyMatrixOfNetwork[j][m];
+                        }
+                    }
+                    completedCount=completedCount+nodeAttrList[m]-1;
+                }
+                completedCount=nodeAttrList.length;
+               for(int m=0;m<nodeAttrList.length;m++)
+                {
+                    for( int i=0;i<nodeAttrList[m]-1;i++)
+                    {
+                        adjacencyMatrixOfNetwork[completedCount+i]=adjacencyMatrixOfNetwork[m];
+                    }
+                    completedCount=completedCount+nodeAttrList[m]-1;
+                    }
+            }
+            CalculateEigenVector.executeAndWriteValues(adjacencyMatrixOfNetwork,network, nodeList,nodeTable,"EigenVector ", vectorResults, "Dir",nodeAttrList);
         }
         if (checkedCentralities[10]) {
             nodeTable.createColumn(directedCentralities[10], Double.class, false);
             
             double min = Double.MAX_VALUE, max = -Double.MAX_VALUE, totalsum = 0, currentvalue;
-            int mult;double temp;
+
             for (Iterator i = BetweennessVectorResults.iterator(); i.hasNext();) {
                 FinalResultBetweenness currentnodebetweenness = (FinalResultBetweenness) i.next();
 
                 double currentbetweenness = currentnodebetweenness.getBetweenness();
                 CyNode root = currentnodebetweenness.getNode();
-                CyRow row = nodeTable.getRow(currentnodebetweenness.getNode().getSUID());
-                if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
-                 {
-                     temp=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
-                     mult=(int)(temp+0.5);
-                     currentbetweenness=mult*currentbetweenness;
-                 }
-                
                 List<CyNode> bridgingNeighborList = network.getNeighborList(root, CyEdge.Type.ANY);
                 double bridgingCoefficient = 0;
                 if(bridgingNeighborList.size() != 0){
                     double BCNumerator = (1/(double)(bridgingNeighborList.size()));
                     double BCDenominator = 0;                
+                    int nodeCentMultiply=1;
                     for (CyNode bridgingNeighbor : bridgingNeighborList) {
+                        if(useNodeAttribute )
+                        {
+                            for(int m=0;m<bridgingNeighborList.size();m++){
+                                CyNode node=((CyNode)bridgingNeighborList.get(m));
+                                int index=nodeList.indexOf(node);
+                                nodeCentMultiply=nodeCentMultiply*nodeAttrList[index];
+                            }
+                            int index=nodeList.indexOf(root);
+                            nodeCentMultiply=nodeCentMultiply*nodeAttrList[index];
+                            BCNumerator=BCNumerator*nodeAttrList[index];
+                        }
                         if(network.getNeighborList(bridgingNeighbor, CyEdge.Type.ANY).size() != 0){
-                            BCDenominator = BCDenominator + 1/(double)(network.getNeighborList(bridgingNeighbor, CyEdge.Type.ANY).size());
+                            BCDenominator = BCDenominator + 1/(double)(network.getNeighborList(bridgingNeighbor, CyEdge.Type.ANY).size())*nodeCentMultiply;
                         }
                     }
                     if(BCDenominator!=0){
@@ -437,7 +537,7 @@ public class CentiScaPeDirectedAlgorithm {
                     max = bridgingCentrality;
                 }
                 totalsum = totalsum + bridgingCentrality;
-            
+            CyRow row = nodeTable.getRow(currentnodebetweenness.getNode().getSUID());
              row.set(directedCentralities[10], new Double(bridgingCentrality));
               }
             networkTable.createColumn(directedCentralities[10].split(" ")[0]+" Max value Dir", Double.class, false);
@@ -519,19 +619,11 @@ public class CentiScaPeDirectedAlgorithm {
         String networkattheading = heading;
             double min = Double.MAX_VALUE, max = -Double.MAX_VALUE, totalsum = 0, currentvalue;
             Iterator it = nodes.iterator();
-            double temp;
-            int mult;
+            
             while (it.hasNext()) {
                         
                 CyNode root = (CyNode) it.next();
                 currentvalue = values.get(root);
-                CyRow row = nodeTable.getRow(root.getSUID());
-                if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
-                {
-                    temp=((Number)(row.get(nodeAttribute, nodeAttrtype))).doubleValue();
-                    mult=(int)(temp+0.5);
-                    currentvalue=mult*currentvalue;
-                }
                 if (currentvalue < min) {
                     min = currentvalue;
                 }
@@ -539,6 +631,7 @@ public class CentiScaPeDirectedAlgorithm {
                     max = currentvalue;
                 }
                 totalsum = totalsum + currentvalue;
+                CyRow row = nodeTable.getRow(root.getSUID());
                 row.set(heading, new Double(currentvalue));
             }
           

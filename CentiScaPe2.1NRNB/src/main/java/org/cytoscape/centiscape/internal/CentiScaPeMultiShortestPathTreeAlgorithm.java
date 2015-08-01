@@ -13,6 +13,7 @@ import java.util.Vector;
 import org.cytoscape.model.CyEdge;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNode;
+import org.cytoscape.model.CyRow;
 import org.cytoscape.model.CyTable;
 
 /*
@@ -39,6 +40,10 @@ public class CentiScaPeMultiShortestPathTreeAlgorithm {
     static Boolean directed;
     static Boolean isWeighted;
     static CyNetwork currentnetwork;
+    static Boolean useNodeAttribute;
+    static String nodeAttribute;
+    static Class<?> nodeAttrtype;
+    static CentiScaPeStartMenu menustart;
     //modificare perch?? non si cancella a ogni nuova iterazione
     //public static TreeMap Stressmap = new TreeMap();
 
@@ -49,11 +54,19 @@ public class CentiScaPeMultiShortestPathTreeAlgorithm {
     }
 
    // public static Vector ExecuteMultiShortestPathTreeAlgorithm(CyNetwork network, CyNetworkView view, CyNode root, Boolean Stressvalue, Boolean Btwvalue, TreeMap zeromap) {
- public static Vector ExecuteMultiShortestPathTreeAlgorithm(CyNetwork network, CyNode root, Boolean Stressvalue, Boolean Btwvalue, TreeMap zeromap, boolean directedc, boolean isWeightd) {
+ public static Vector ExecuteMultiShortestPathTreeAlgorithm(CyNetwork network, CyNode root, Boolean Stressvalue, Boolean Btwvalue, TreeMap zeromap, boolean directedc, boolean isWeightd,CentiScaPeStartMenu menustarted) {
 
         isWeighted = isWeightd;
         currentnetwork = network;
         directed = directedc;
+        menustart=menustarted;
+        useNodeAttribute=menustart.useNodeAttribute;
+        nodeAttribute=menustart.nodeAttribute;
+        if(nodeAttribute!=null &&  network.getDefaultNodeTable().getColumn(nodeAttribute)!=null)
+            nodeAttrtype=network.getDefaultNodeTable().getColumn(nodeAttribute).getType();
+        if(!(nodeAttrtype == Double.class || nodeAttrtype == Integer.class || nodeAttrtype == Long.class)){
+               useNodeAttribute=false;
+         }
         //  Stressmap.clear();
         //Declaration of set and list used in the algorithm
         //PathSet is the set of the shortest path
@@ -94,6 +107,8 @@ public class CentiScaPeMultiShortestPathTreeAlgorithm {
         double startingpathsnumber = 0;
         ShortestPathVector.size();
         double finalpathsnumber = 0;
+        
+       
 
         //if (BtwisOn) {
         //  currentmap = (TreeMap) perinizializza.clone();
@@ -302,7 +317,20 @@ public class CentiScaPeMultiShortestPathTreeAlgorithm {
 
                 }
             }
+            
+            if(useNodeAttribute )
+            {
+                for(int m=0;m<spathlist.size();m++){
+                    CyNode node=((CentiScaPeMultiSPath)spathlist.get(m)).getNode();
+                    CyRow row = currentnetwork.getDefaultNodeTable().getRow(node.getSUID());
+                    int nodeValue=((Number)(row.get(nodeAttribute, nodeAttrtype))).intValue();
+                    if(nodeValue!=0)
+                        currentstressvalue=currentstressvalue*nodeValue;
+                }
+                
+            }
             if (StressisOn) {
+                
                 // double valuetoput = (Double) currentmap.get(currentfathernodename) + currentstressvalue;
                 if(directed){
                     CentiScaPeDirectedAlgorithm.Stressmap.put(currentfathernodename, (Double) CentiScaPeDirectedAlgorithm.Stressmap.get(currentfathernodename) + currentstressvalue);

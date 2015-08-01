@@ -79,6 +79,10 @@ public class FinalResultRadiality implements Comparable {
         
         return Radiality;
     }
+     public void setRadiality(double r) {
+        
+        Radiality=r;
+    }
     
     public String getstringRadiality() {
         
