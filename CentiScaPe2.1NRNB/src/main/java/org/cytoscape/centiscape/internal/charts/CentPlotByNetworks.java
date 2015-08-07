@@ -72,7 +72,7 @@ public class CentPlotByNetworks extends JFrame {
     }
   JFreeChart createChart(CategoryDataset categorydataset) {
  //   static JFreeChart createChart(CategoryDataset categorydataset) {
-        JFreeChart jfreechart = ChartFactory.createBarChart("Network shart chart", "centrality statistics", "Value", categorydataset, PlotOrientation.VERTICAL, true, true, false);
+        JFreeChart jfreechart = ChartFactory.createBarChart("Network chart", "centrality statistics", "Value", categorydataset, PlotOrientation.VERTICAL, true, true, false);
         jfreechart.setBackgroundPaint(Color.white);
        // plotting setup
         CategoryPlot categoryplot = (CategoryPlot) jfreechart.getPlot();

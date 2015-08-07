@@ -105,9 +105,9 @@ public class CentiScaPeDirectedAlgorithm {
                     CyRow row = nodeTable.getRow(node.getSUID());
                     if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
                     {
-                        int temp=((Number)(row.get(nodeAttribute, nodeAttrtype))).intValue();
-                        if(temp!=0)
+                         if(row.get(nodeAttribute, nodeAttrtype)!=null && ((Number)row.get(nodeAttribute, nodeAttrtype)).intValue()!=0)
                             {
+                                int temp=((Number)(row.get(nodeAttribute, nodeAttrtype))).intValue();
                                 totalnodecount=totalnodecount+temp;
                                 nodeAttrList[m]=temp;
                             }
@@ -213,12 +213,8 @@ public class CentiScaPeDirectedAlgorithm {
             CyRow row;
             if(useNodeAttribute)
             {   
-                row = network.getDefaultNodeTable().getRow(root.getSUID());
-                int temp=((Number)(row.get(nodeAttribute, nodeAttrtype))).intValue();
-                if(temp!=0)
-                {
-                    currentNodeAttr=temp;
-                }
+                int ind=nodeList.indexOf(root);
+                currentNodeAttr=nodeAttrList[ind];
             }
                 
 		CentiScaPeMultiShortestPathVector = new Vector();

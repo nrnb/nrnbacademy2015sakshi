@@ -323,9 +323,13 @@ public class CentiScaPeMultiShortestPathTreeAlgorithm {
                 for(int m=0;m<spathlist.size();m++){
                     CyNode node=((CentiScaPeMultiSPath)spathlist.get(m)).getNode();
                     CyRow row = currentnetwork.getDefaultNodeTable().getRow(node.getSUID());
-                    int nodeValue=((Number)(row.get(nodeAttribute, nodeAttrtype))).intValue();
-                    if(nodeValue!=0)
-                        currentstressvalue=currentstressvalue*nodeValue;
+                    if(row.get(nodeAttribute, nodeAttrtype)!=null)
+                    {
+                        int nodeValue=((Number)(row.get(nodeAttribute, nodeAttrtype))).intValue();
+                        if(nodeValue!=0)
+                            currentstressvalue=currentstressvalue*nodeValue;
+                    }
+                   
                 }
                 
             }

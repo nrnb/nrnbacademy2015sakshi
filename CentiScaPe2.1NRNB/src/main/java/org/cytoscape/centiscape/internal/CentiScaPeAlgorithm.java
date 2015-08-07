@@ -135,11 +135,11 @@ public class CentiScaPeAlgorithm {
                 for(int m=0;m< nodeList.size();m++){
                     CyNode node=(CyNode) nodeList.get(m);
                     CyRow row = nodeTable.getRow(node.getSUID());
-                    if(useNodeAttribute && row.get(nodeAttribute, nodeAttrtype)!=null)
+                    if(useNodeAttribute )
                     {
-                        int d=((Number)(row.get(nodeAttribute, nodeAttrtype))).intValue();
-                        if(d!=0)
+                         if(row.get(nodeAttribute, nodeAttrtype)!=null && ((Number)row.get(nodeAttribute, nodeAttrtype)).intValue()!=0)
                             {
+                                int d=((Number)(row.get(nodeAttribute, nodeAttrtype))).intValue();
                                 totalnodecount=totalnodecount+d;
                                 nodeAttrList[m]=d;
                             }
@@ -262,25 +262,13 @@ public class CentiScaPeAlgorithm {
             CyRow row;
             if(useNodeAttribute)
             {
-                row = network.getDefaultNodeTable().getRow(root.getSUID());
-                int temp=((Number)(row.get(nodeAttribute, nodeAttrtype))).intValue();
-                if(temp!=0)
-                {
-                    currentNodeAttr=temp;
-                }
+                int index=nodeList.indexOf(root);
+                currentNodeAttr=nodeAttrList[index];
                 double currentDegreevalue = network.getNeighborList(root, CyEdge.Type.ANY).size();
                 for(int m=0;m<currentDegreevalue;m++)
                 {
-                    CyNode node=network.getNeighborList(root, CyEdge.Type.ANY).get(m);
-                    CyRow temprow = nodeTable.getRow(node.getSUID());
-                    int d=((Number)(temprow.get(nodeAttribute, nodeAttrtype))).intValue();
-                    if(d!=0)
-                    {
-                        totalDegreeCount=totalDegreeCount+d;
-                    }
-                    else
-                        totalDegreeCount++;
-
+                    int ind=nodeList.indexOf(root);
+                    totalDegreeCount+=nodeAttrList[ind];
                 }
                 
             }

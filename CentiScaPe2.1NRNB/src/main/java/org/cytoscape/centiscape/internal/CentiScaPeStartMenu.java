@@ -1450,6 +1450,8 @@ public class CentiScaPeStartMenu extends javax.swing.JPanel implements CytoPanel
              if (useNodeAttribute) {
                 // take attribute from user
                 nodeAttribute = JOptionPane.showInputDialog(null, "Enter the Node attribute to consider for the network");
+                if(nodeAttribute==null)
+                    return;
              }
            
            
