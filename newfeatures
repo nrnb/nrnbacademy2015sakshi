@@ -1,0 +1,24 @@
+CENTISCAPE NEW FEATURES
+1.	Added multiple network analysis of networks to the previous version of Cytoscape.
+ 
+How to Use?
+In the Control Panel, in the networks window, select all the networks that need to be analysed, then check the box: “Analyze selected networks”. After that on selecting all the centralities and clicking on the start button, computations for multiple analysis will commence.
+
+2.	Enhanced result panel for multiple graph analysis
+ 
+In the result panel there are 2 sections
+•	Nodewise calculations
+•	Networkwise calculation
+•	For nodewise computations, the centralities for which the calculations are required can be checked, and then the node needs to be selected. 
+Then there are 2 options-
+1.	Tabulate the result. 
+ 
+2. Plot bar/ line graph. 
+Plotting the graph further has options. The values of the centralities being plotted can be the original value, normalized by maximum or normalized by average. For networks that do not contain the chosen nodes, no values are populated.
+   
+
+•	For the network-wise computations, the max, min or avg centralities of all networks can be plotted as bar graphs.
+ 
+Further all centralities can also be tabulated
+ 
+
